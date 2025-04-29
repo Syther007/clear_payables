@@ -58,6 +58,8 @@ def empty_pending_payable(db_path):
         if confirm == 'y':
             cursor.execute("DELETE FROM pending_payable;")
             conn.commit()
+            cursor.execute("UPDATE payable SET pending_payable_rowid = NULL;")
+            conn.commit()
             print(f"\nTable 'pending_payable' has been emptied successfully in '{db_path}'.")
             return True
         else:
