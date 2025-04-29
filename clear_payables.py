@@ -50,7 +50,7 @@ def empty_pending_payable(db_path):
     try:
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
-        print(f"\n*** WARNING ***")
+        print(f"\n⚠️ ⚠️ ⚠️ WARNING ⚠️ ⚠️ ⚠️")
         print(f"You are about to clear the 'pending_payable' table in the database:")
         print(f"  {db_path}")
         confirm = input("Are you absolutely sure you want to proceed? (y/n): ").lower()
@@ -58,16 +58,17 @@ def empty_pending_payable(db_path):
         if confirm == 'y':
             cursor.execute("DELETE FROM pending_payable;")
             conn.commit()
+            print(f"\nTable 'pending_payable' has been emptied successfully in '{db_path}'.")
             cursor.execute("UPDATE payable SET pending_payable_rowid = NULL;")
             conn.commit()
-            print(f"\nTable 'pending_payable' has been emptied successfully in '{db_path}'.")
+            print(f"Table 'payable' has been updated successfully in '{db_path}'.")
             return True
         else:
             print("\nOperation cancelled by user.")
             return False
 
     except sqlite3.Error as e:
-        print(f"An error occurred while processing '{db_path}': {e}")
+        print(f"❌❌❌ An error occurred while processing '{db_path}': {e}")
         return False
     finally:
         if conn:
